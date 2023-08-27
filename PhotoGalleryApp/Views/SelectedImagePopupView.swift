@@ -1,5 +1,5 @@
 //
-//  SelectedImagePopup.swift
+//  SelectedImagePopupView.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 21/08/2023.
@@ -112,7 +112,8 @@ struct SelectedImagePopupView: View {
             return
         }
 
-        let apiUrl = "http://localhost:8080/api"
+        // let apiUrl = "http://localhost:8080/api"
+        let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
 
         let url = URL(string: "\(apiUrl)/images/editFilename/\(imageId)/\(newFilename)")!
         var request = URLRequest(url: url)
@@ -139,7 +140,8 @@ struct SelectedImagePopupView: View {
     func deleteImage() {
         let imageId = selectedImage?.id ?? ""
 
-        let apiUrl = "http://localhost:8080/api"
+        // let apiUrl = "http://localhost:8080/api"
+        let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
 
         let url = URL(string: "\(apiUrl)/images/delete/\(imageId)")!
         var request = URLRequest(url: url)

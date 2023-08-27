@@ -1,5 +1,5 @@
 //
-//  Filters.swift
+//  FiltersView.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 26/08/2023.
@@ -11,6 +11,8 @@ struct FiltersView: View {
     var userLogin: String = ""
     var category: String = ""
 
+    var filteredImagesCount: Int = 0
+
     @Binding var filterField: String
     var sortByName: (Bool) -> Void
     var loadImages: () -> Void
@@ -19,9 +21,13 @@ struct FiltersView: View {
 
     var body: some View {
         VStack {
-            TextField("Szukaj obrazów", text: $filterField)
-                .autocapitalization(.none)
-                .padding(.init(top: 20, leading: 20, bottom: 0, trailing: 20))
+            HStack {
+                TextField("Szukaj obrazów", text: $filterField)
+                    .autocapitalization(.none)
+                Spacer()
+                Text("Ilość: \(filteredImagesCount)")
+            }
+            .padding(.init(top: 20, leading: 20, bottom: 0, trailing: 20))
 
             HStack {
                 HStack {

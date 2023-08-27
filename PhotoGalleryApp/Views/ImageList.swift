@@ -26,8 +26,6 @@ struct ImageList: View {
                             .font(.caption)
                     }
                 }
-
-                Text("Ilosc: \(filteredImages.count)")
             }
         }
         .padding()

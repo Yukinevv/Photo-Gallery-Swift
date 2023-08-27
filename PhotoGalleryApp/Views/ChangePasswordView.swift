@@ -19,6 +19,9 @@ struct ChangePasswordView: View {
 
     @State private var cancellables = Set<AnyCancellable>()
 
+    @State private var isInputInvalid1 = false
+    @State private var isInputInvalid2 = false
+
     var userLogin: String = ""
 
     var body: some View {
@@ -36,11 +39,19 @@ struct ChangePasswordView: View {
                 SecureField("Nowe hasło", text: $newPassword)
                     .autocapitalization(.none)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .modifier(InvalidInputModifier2(isInvalid: $isInputInvalid1))
+                    .onChange(of: newPassword) { newValue in
+                        isInputInvalid1 = !isValid(newValue)
+                    }
 
                 Text("Potwierdź nowe hasło:")
                 SecureField("Potwierdź nowe hasło", text: $confirmNewPassword)
                     .autocapitalization(.none)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .modifier(InvalidInputModifier2(isInvalid: $isInputInvalid2))
+                    .onChange(of: confirmNewPassword) { newValue in
+                        isInputInvalid2 = !isValid(newValue)
+                    }
             }
             .padding()
 
@@ -80,6 +91,10 @@ struct ChangePasswordView: View {
         .padding()
     }
 
+    func isValid(_ input: String) -> Bool {
+        return input.count >= 5
+    }
+
     func changePassword() {
         if userLogin.isEmpty {
             return
@@ -99,7 +114,8 @@ struct ChangePasswordView: View {
             return
         }
 
-        let apiUrl = "http://localhost:8080/api"
+        // let apiUrl = "http://localhost:8080/api"
+        let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
 
         let url = URL(string: "\(apiUrl)/users/editPassword/\(userLogin)/\(currentPassword)/\(newPassword)")!
 

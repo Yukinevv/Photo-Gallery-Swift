@@ -1,5 +1,5 @@
 //
-//  testview.swift
+//  TestImageList.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 22/08/2023.
@@ -65,7 +65,7 @@ struct TestImageListView: View {
     private func convertBase64ToImage(base64String: String) -> Image {
         // Convert base64String to UIImage
         if let imageData = Data(base64Encoded: base64String), let uiImage = UIImage(data: imageData) {
-            // Convert UIImage to Image (SwiftUI)
+            // Convert UIImage to Image
             return Image(uiImage: uiImage)
         } else {
             return Image(systemName: "photo")

@@ -5,12 +5,12 @@
 //  Created by Adrian Rodzic on 19/08/2023.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 class ApiService {
-    // private let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
-    private let apiUrl = "http://localhost:8080/api"
+    private let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
+    //private let apiUrl = "http://localhost:8080/api"
 
     func createUser(user: User, completion: @escaping (Result<Data, Error>) -> Void) {
         let url = URL(string: "\(apiUrl)/users/add")!
@@ -19,7 +19,7 @@ class ApiService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            //request.httpBody = try JSONSerialization.data(withJSONObject: user)
+            // request.httpBody = try JSONSerialization.data(withJSONObject: user)
             request.httpBody = try JSONEncoder().encode(user)
         } catch {
             completion(.failure(error))
@@ -102,20 +102,16 @@ class ApiService {
     }
 
     func getImages(userLogin: String, category: String) -> AnyPublisher<[ImageResponse], Error> {
-        // Construct your API URL
         let url = URL(string: "\(apiUrl)/images/\(userLogin)/\(category)")!
 
-        // Create a URLRequest
         let request = URLRequest(url: url)
-        // Configure request as needed (e.g., set HTTP headers, HTTP method, etc.)
 
-        // Use URLSession to fetch the data
         return URLSession.shared.dataTaskPublisher(for: request)
             .mapError { $0 as Error }
             .map { data, _ in
-                //print(String(data: data, encoding: .utf8) ?? "")
-                //print(Date())
-                return data
+                // print(String(data: data, encoding: .utf8) ?? "")
+                // print(Date())
+                data
             }
             .decode(type: [ImageResponse].self, decoder: JSONDecoder())
             .eraseToAnyPublisher()

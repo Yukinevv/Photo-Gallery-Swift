@@ -1,5 +1,5 @@
 //
-//  Filters.swift
+//  TestFilters.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 23/08/2023.

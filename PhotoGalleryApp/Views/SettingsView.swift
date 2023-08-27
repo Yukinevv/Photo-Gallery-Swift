@@ -16,7 +16,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Uzytkownik")) {
+                Section(header: Text("Użytkownik")) {
                     NavigationLink(destination: ChangePasswordView(userLogin: userLogin)) {
                         Text("Zmień hasło")
                             .foregroundColor(.black)

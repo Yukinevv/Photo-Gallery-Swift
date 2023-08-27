@@ -1,5 +1,5 @@
 //
-//  FileUpload.swift
+//  FileUploadView.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 22/08/2023.
@@ -91,13 +91,14 @@ struct FileUploadView: View {
 
         category = category.replacePolishCharacters()
 
-        let apiURL = "http://localhost:8080/api"
+        // let apiUrl = "http://localhost:8080/api"
+        let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
 
         AF.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(selectedFile, withName: "image", fileName: selectedFile.lastPathComponent, mimeType: "image/jpeg")
             },
-            to: "\(apiURL)/images/upload/\(userLogin)/\(category)",
+            to: "\(apiUrl)/images/upload/\(userLogin)/\(category)",
             method: .post,
             headers: HTTPHeaders(["Content-Type": "multipart/form-data"])
         )
@@ -105,7 +106,6 @@ struct FileUploadView: View {
             switch response.result {
             case let .success(data):
                 if let responseData = data {
-                    // You can decode responseData if it's JSON, or handle it as needed
                     print("Sukces: \(responseData)")
                     loadImages()
                     isSheetPresented = false

@@ -23,7 +23,7 @@ struct ImageListView: View {
 
     var body: some View {
         VStack {
-            FiltersView(userLogin: userLogin, category: category, filterField: $filterField, sortByName: sortByName, loadImages: loadImages)
+            FiltersView(userLogin: userLogin, category: category, filteredImagesCount: getFilteredImages.count, filterField: $filterField, sortByName: sortByName, loadImages: loadImages)
 
             if images.isEmpty {
                 Text("Nie wstawiono jeszcze żadnego obrazu...")
@@ -41,7 +41,7 @@ struct ImageListView: View {
             // userLogin = UserDefaults.standard.string(forKey: "userLogin") ?? "jank1"
             // category = UserDefaults.standard.string(forKey: "category") ?? "Sport"
             // fetchImages()
-            loadImages() // dziala asynchronicznie (na innym watku)
+            loadImages()
             // filteredImages = images
         }
         .sheet(item: $selectedImage) { image in
@@ -71,43 +71,44 @@ struct ImageListView: View {
         }
     }
 
-    func fetchImages() {
-        guard !userLogin.isEmpty, !category.isEmpty else {
-            return
-        }
+    /* func fetchImages() {
+         guard !userLogin.isEmpty, !category.isEmpty else {
+             return
+         }
 
-        let apiService = ApiService()
+         let apiService = ApiService()
 
-        apiService.getImages(userLogin: userLogin, category: category)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    print("Error fetching images: \(error)")
-                }
-            }, receiveValue: { response in
-                self.images = response.map { item in
-                    MyImage(
-                        id: item.id,
-                        filename: item.filename,
-                        image: self.convertBase64ToImage(base64String: item.data)
-                    )
-                }
-            })
-            .store(in: &cancellables)
-    }
+         apiService.getImages(userLogin: userLogin, category: category)
+             .sink(receiveCompletion: { completion in
+                 switch completion {
+                 case .finished:
+                     break
+                 case let .failure(error):
+                     print("Error fetching images: \(error)")
+                 }
+             }, receiveValue: { response in
+                 self.images = response.map { item in
+                     MyImage(
+                         id: item.id,
+                         filename: item.filename,
+                         image: self.convertBase64ToImage(base64String: item.data)
+                     )
+                 }
+             })
+             .store(in: &cancellables)
+     } */
 
     func loadImages() {
         guard !userLogin.isEmpty, !category.isEmpty else {
             return
         }
 
-        let apiURL = "http://localhost:8080/api"
+        // let apiUrl = "http://localhost:8080/api"
+        let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
 
         category = category.replacePolishCharacters()
 
-        AF.request("\(apiURL)/images/\(userLogin)/\(category)").responseDecodable(of: [ImageResponse].self) { response in
+        AF.request("\(apiUrl)/images/\(userLogin)/\(category)").responseDecodable(of: [ImageResponse].self) { response in
             switch response.result {
             case let .success(images):
                 self.images = images.map { item in
@@ -127,7 +128,7 @@ struct ImageListView: View {
     private func convertBase64ToImage(base64String: String) -> Image {
         // Convert base64String to UIImage
         if let imageData = Data(base64Encoded: base64String), let uiImage = UIImage(data: imageData) {
-            // Convert UIImage to Image (SwiftUI)
+            // Convert UIImage to Image
             return Image(uiImage: uiImage)
         } else {
             return Image(systemName: "photo")

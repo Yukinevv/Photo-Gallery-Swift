@@ -1,5 +1,5 @@
 //
-//  LoginForm.swift
+//  LayoutTest.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 17/08/2023.

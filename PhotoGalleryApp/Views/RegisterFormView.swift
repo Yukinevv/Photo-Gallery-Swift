@@ -1,5 +1,5 @@
 //
-//  RegisterForm.swift
+//  RegisterFormView.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 19/08/2023.
@@ -25,54 +25,55 @@ struct RegisterFormView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    Spacer().frame(height: geometry.size.height * 0.15)
+                    Spacer().frame(height: geometry.size.height * 0.08)
 
                     Text("Utwórz konto")
                         .font(.title)
-                        .padding()
 
-                    VStack {
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Login")
                         TextField("Login", text: $login)
                             .autocapitalization(.none)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.init(top: 20, leading: 20, bottom: 10, trailing: 20))
 
+                        Text("Email")
                         TextField("Email", text: $email)
                             .autocapitalization(.none)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.init(top: 10, leading: 20, bottom: 10, trailing: 20))
 
+                        Text("Hasło")
                         SecureField("Hasło", text: $password1)
                             .autocapitalization(.none)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.init(top: 10, leading: 20, bottom: 10, trailing: 20))
                             .modifier(InvalidInputModifier(isInvalid: $isInputInvalid1))
                             .onChange(of: password1) { newValue in
                                 isInputInvalid1 = !isValid(newValue)
                             }
 
+                        Text("Powtórz hasło")
                         SecureField("Powtórz hasło", text: $password2)
                             .autocapitalization(.none)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.init(top: 10, leading: 20, bottom: 10, trailing: 20))
                             .modifier(InvalidInputModifier(isInvalid: $isInputInvalid2))
                             .onChange(of: password2) { newValue in
                                 isInputInvalid2 = !isValid(newValue)
                             }
 
-                        if !errorMessage.isEmpty {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                                .font(.system(size: 14))
-                                .multilineTextAlignment(.center)
-                                .padding()
-                        }
-                        if !successMessage.isEmpty {
-                            Text(successMessage)
-                                .foregroundColor(Color(rgb: 17, green: 217, blue: 17))
-                                .font(.system(size: 14))
-                                .multilineTextAlignment(.center)
-                                .padding()
+                        HStack {
+                            Spacer()
+                            if !errorMessage.isEmpty {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+                            }
+                            if !successMessage.isEmpty {
+                                Text(successMessage)
+                                    .foregroundColor(Color(rgb: 17, green: 217, blue: 17))
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+                            }
+                            Spacer()
                         }
 
                         HStack {
@@ -81,15 +82,17 @@ struct RegisterFormView: View {
                                 registerUser()
                             }) {
                                 Text("Zarejestruj się")
+                                    .font(.headline)
+                                    .padding()
+                                    .frame(maxWidth: 180)
+                                    .background(Color.blue)
                                     .foregroundColor(.white)
+                                    .cornerRadius(10)
                             }
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(8)
                             Spacer()
                         }
-                        .padding()
                     }
+                    .padding(30)
                     .background(Color.white)
                     .cornerRadius(8)
                     .padding(20)
@@ -146,19 +149,6 @@ struct RegisterFormView: View {
                 }
             }
         }
-    }
-}
-
-struct InvalidInputModifier: ViewModifier {
-    @Binding var isInvalid: Bool
-
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.red, lineWidth: isInvalid ? 2 : 0)
-                    .padding(.init(top: 10, leading: 20, bottom: 10, trailing: 20))
-            )
     }
 }
 

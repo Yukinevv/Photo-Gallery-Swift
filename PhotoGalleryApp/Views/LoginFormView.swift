@@ -1,5 +1,5 @@
 //
-//  LoginForm.swift
+//  LoginFormView.swift
 //  PhotoGalleryApp
 //
 //  Created by Adrian Rodzic on 17/08/2023.
@@ -19,7 +19,7 @@ struct LoginFormView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    Spacer().frame(height: geometry.size.height * 0.02)
+                    Spacer().frame(height: geometry.size.height * 0.03)
 
                     HStack {
                         Text("Photo Gallery")
@@ -32,42 +32,49 @@ struct LoginFormView: View {
                     }
                     .padding()
 
-                    Spacer().frame(height: geometry.size.height * 0.15)
+                    Spacer().frame(height: geometry.size.height * 0.12)
 
                     Text("Zaloguj się na swoje konto")
                         .font(.title)
-                        .padding()
 
-                    Spacer().frame(height: geometry.size.height * 0.01)
-
-                    VStack {
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Login")
                         TextField("Login", text: $login)
                             .autocapitalization(.none)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.init(top: 20, leading: 20, bottom: 10, trailing: 20))
 
+                        Text("Hasło")
                         SecureField("Hasło", text: $password)
                             .autocapitalization(.none)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.init(top: 10, leading: 20, bottom: 10, trailing: 20))
 
-                        if !errorMessage.isEmpty {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                                .padding()
+                        HStack {
+                            Spacer()
+                            if !errorMessage.isEmpty {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                                    .padding()
+                            }
+                            Spacer()
                         }
 
-                        Button(action: {
-                            loginUser()
-                        }) {
-                            Text("Zaloguj")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                loginUser()
+                            }) {
+                                Text("Zaloguj")
+                                    .font(.headline)
+                                    .padding()
+                                    .frame(maxWidth: 150)
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            Spacer()
                         }
-                        .padding()
                     }
+                    .padding(30)
                     .background(Color.white)
                     .cornerRadius(8)
                     .padding(20)

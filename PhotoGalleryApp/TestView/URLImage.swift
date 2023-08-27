@@ -17,14 +17,14 @@ struct URLImageView: View {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200) // Set the desired image size
+                    .frame(width: 200, height: 200)
             case .failure:
-                Image(systemName: "photo") // Placeholder image if the download fails
+                Image(systemName: "photo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 200, height: 200)
             case .empty:
-                ProgressView() // Placeholder while the image is loading
+                ProgressView()
             @unknown default:
                 EmptyView()
             }
