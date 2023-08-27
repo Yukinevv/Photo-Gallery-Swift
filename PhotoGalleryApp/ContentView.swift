@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isLoggedIn: Bool = false
+    @State private var userLogin: String = ""
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            if isLoggedIn {
+                DockNavigationView(isLoggedIn: $isLoggedIn, userLogin: userLogin)
+            } else {
+                LoginFormView(isLoggedIn: $isLoggedIn, userLogin: $userLogin)
+            }
         }
-        .padding()
     }
 }
 
