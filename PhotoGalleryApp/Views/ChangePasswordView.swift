@@ -28,6 +28,7 @@ struct ChangePasswordView: View {
         VStack {
             Text("Zmień swoje hasło")
                 .font(.title)
+                .padding()
 
             VStack(alignment: .leading, spacing: 15) {
                 Text("Obecne hasło:")
@@ -39,7 +40,7 @@ struct ChangePasswordView: View {
                 SecureField("Nowe hasło", text: $newPassword)
                     .autocapitalization(.none)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .modifier(InvalidInputModifier2(isInvalid: $isInputInvalid1))
+                    .modifier(InvalidInputModifier(isInvalid: $isInputInvalid1))
                     .onChange(of: newPassword) { newValue in
                         isInputInvalid1 = !isValid(newValue)
                     }
@@ -48,47 +49,58 @@ struct ChangePasswordView: View {
                 SecureField("Potwierdź nowe hasło", text: $confirmNewPassword)
                     .autocapitalization(.none)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .modifier(InvalidInputModifier2(isInvalid: $isInputInvalid2))
+                    .modifier(InvalidInputModifier(isInvalid: $isInputInvalid2))
                     .onChange(of: confirmNewPassword) { newValue in
                         isInputInvalid2 = !isValid(newValue)
                     }
-            }
-            .padding()
 
-            if !errorMessage.isEmpty {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-            }
+                HStack {
+                    Spacer()
+                    if !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                    }
 
-            if !successMessage.isEmpty {
-                Text(successMessage)
-                    .foregroundColor(.green)
-            }
+                    if !successMessage.isEmpty {
+                        Text(successMessage)
+                            .foregroundColor(.green)
+                    }
+                    Spacer()
+                }
 
-            Button(action: {
-                isShowingConfirmationDialog = true
-            }) {
-                Text("Zmień hasło")
-                    .font(.headline)
-                    .padding()
-                    .frame(maxWidth: 200) // .infinity
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isShowingConfirmationDialog = true
+                    }) {
+                        Text("Zmień hasło")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: 180) // .infinity
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .alert(isPresented: $isShowingConfirmationDialog) {
+                        Alert(
+                            title: Text("Zmiana hasła"),
+                            message: Text("Czy na pewno chcesz zmienić swoje hasło?"),
+                            primaryButton: .default(Text("Tak")) {
+                                changePassword()
+                            },
+                            secondaryButton: .cancel(Text("Nie"))
+                        )
+                    }
+                    Spacer()
+                }
             }
-            .alert(isPresented: $isShowingConfirmationDialog) {
-                Alert(
-                    title: Text("Zmiana hasła"),
-                    message: Text("Czy na pewno chcesz zmienić swoje hasło?"),
-                    primaryButton: .default(Text("Tak")) {
-                        changePassword()
-                    },
-                    secondaryButton: .cancel(Text("Nie"))
-                )
-            }
-            .padding()
+            .padding(30)
+            .background(Color.white)
+            .cornerRadius(8)
+            .padding(20)
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(hex: 0xF0F0F0))
     }
 
     func isValid(_ input: String) -> Bool {

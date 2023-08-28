@@ -17,23 +17,21 @@ struct LoginFormView: View {
 
     var body: some View {
         NavigationView {
-            GeometryReader { geometry in
+            VStack {
+                HStack {
+                    Text("Photo Gallery")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Image(systemName: "camera")
+                        .resizable()
+                        .frame(width: 35, height: 35)
+                        .fontWeight(.bold)
+                }
+                .padding(.init(top: 30, leading: 0, bottom: 0, trailing: 0))
+
+                Spacer()
+
                 VStack {
-                    Spacer().frame(height: geometry.size.height * 0.03)
-
-                    HStack {
-                        Text("Photo Gallery")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                        Image(systemName: "camera")
-                            .resizable()
-                            .frame(width: 35, height: 35)
-                            .fontWeight(.bold)
-                    }
-                    .padding()
-
-                    Spacer().frame(height: geometry.size.height * 0.12)
-
                     Text("Zaloguj się na swoje konto")
                         .font(.title)
 
@@ -77,22 +75,22 @@ struct LoginFormView: View {
                     .padding(30)
                     .background(Color.white)
                     .cornerRadius(8)
-                    .padding(20)
-
-                    Spacer()
-
-                    VStack {
-                        Text("Nie masz konta?")
-                        NavigationLink(destination: RegisterFormView(isLoggedIn: $isLoggedIn, userLogin: $userLogin)) {
-                            Text("Zarejestruj się")
-                                .foregroundColor(.blue)
-                        }
-                    }
-                    .padding()
+                    .padding(.init(top: 15, leading: 20, bottom: 20, trailing: 20))
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(hex: 0xF0F0F0))
+
+                Spacer()
+
+                VStack {
+                    Text("Nie masz konta?")
+                    NavigationLink(destination: RegisterFormView(isLoggedIn: $isLoggedIn, userLogin: $userLogin)) {
+                        Text("Zarejestruj się")
+                            .foregroundColor(.blue)
+                    }
+                }
+                .padding(.init(top: 0, leading: 0, bottom: 30, trailing: 0))
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(hex: 0xF0F0F0))
         }
         .navigationBarBackButtonHidden(true)
     }

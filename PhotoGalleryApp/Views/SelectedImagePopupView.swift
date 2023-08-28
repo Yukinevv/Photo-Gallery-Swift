@@ -67,6 +67,7 @@ struct SelectedImagePopupView: View {
 
                 Text(image.filename)
                     .font(.headline)
+                    .multilineTextAlignment(.center)
                     .padding()
             }
 

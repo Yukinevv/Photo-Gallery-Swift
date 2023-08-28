@@ -24,10 +24,11 @@ struct ImageList: View {
                             }
                         Text(image.filename)
                             .font(.caption)
+                            .multilineTextAlignment(.center)
                     }
                 }
             }
         }
-        .padding()
+        .padding(.init(top: 0, leading: 12, bottom: 4, trailing: 12))
     }
 }

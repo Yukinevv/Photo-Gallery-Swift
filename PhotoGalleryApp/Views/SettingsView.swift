@@ -35,6 +35,8 @@ struct SettingsView: View {
                 }
             }
             .listStyle(GroupedListStyle())
+            // .background(Color(hex: 0xF0F0F0))
+
             .navigationTitle("Ustawienia")
         }
     }

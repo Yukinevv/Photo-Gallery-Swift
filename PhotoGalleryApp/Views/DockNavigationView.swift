@@ -14,21 +14,33 @@ struct DockNavigationView: View {
     var userLogin: String = ""
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            CategoryListView(userLogin: userLogin)
-                .tabItem {
-                    Image(systemName: "camera")
-                    Text("Galeria")
-                }
-                .tag(0)
+        // GeometryReader { geometry in
+        VStack(spacing: 0) {
+            TabView(selection: $selectedTab) {
+                CategoryListView(userLogin: userLogin)
+                    .tabItem {
+                        Image(systemName: "camera")
+                        Text("Galeria")
+                    }
+                    .tag(0)
 
-            SettingsView(isLoggedIn: $isLoggedIn, userLogin: userLogin)
-                .tabItem {
-                    Image(systemName: "gearshape.fill")
-                    Text("Ustawienia")
-                }
-                .tag(1)
+                SettingsView(isLoggedIn: $isLoggedIn, userLogin: userLogin)
+                    .tabItem {
+                        Image(systemName: "gearshape.fill")
+                        Text("Ustawienia")
+                    }
+                    .tag(1)
+            }
+            // .frame(height: geometry.size.height - 10)
+
+            /* if selectedTab == 1 {
+                 Rectangle()
+                     .fill(Color(hex: 0xF0F0F0))
+                     .frame(height: 10)
+                     .edgesIgnoringSafeArea(.bottom)
+             } */
         }
+        // }
         .navigationBarBackButtonHidden(true)
     }
 }

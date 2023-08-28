@@ -23,94 +23,92 @@ struct RegisterFormView: View {
 
     var body: some View {
         NavigationView {
-            GeometryReader { geometry in
-                VStack {
-                    Spacer().frame(height: geometry.size.height * 0.08)
+            VStack {
+                Text("Utwórz konto")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.init(top: 30, leading: 0, bottom: 0, trailing: 0))
 
-                    Text("Utwórz konto")
-                        .font(.title)
+                Spacer()
 
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text("Login")
-                        TextField("Login", text: $login)
-                            .autocapitalization(.none)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Login")
+                    TextField("Login", text: $login)
+                        .autocapitalization(.none)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
 
-                        Text("Email")
-                        TextField("Email", text: $email)
-                            .autocapitalization(.none)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Text("Email")
+                    TextField("Email", text: $email)
+                        .autocapitalization(.none)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
 
-                        Text("Hasło")
-                        SecureField("Hasło", text: $password1)
-                            .autocapitalization(.none)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .modifier(InvalidInputModifier(isInvalid: $isInputInvalid1))
-                            .onChange(of: password1) { newValue in
-                                isInputInvalid1 = !isValid(newValue)
-                            }
-
-                        Text("Powtórz hasło")
-                        SecureField("Powtórz hasło", text: $password2)
-                            .autocapitalization(.none)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .modifier(InvalidInputModifier(isInvalid: $isInputInvalid2))
-                            .onChange(of: password2) { newValue in
-                                isInputInvalid2 = !isValid(newValue)
-                            }
-
-                        HStack {
-                            Spacer()
-                            if !errorMessage.isEmpty {
-                                Text(errorMessage)
-                                    .foregroundColor(.red)
-                                    .multilineTextAlignment(.center)
-                                    .padding()
-                            }
-                            if !successMessage.isEmpty {
-                                Text(successMessage)
-                                    .foregroundColor(Color(rgb: 17, green: 217, blue: 17))
-                                    .multilineTextAlignment(.center)
-                                    .padding()
-                            }
-                            Spacer()
+                    Text("Hasło")
+                    SecureField("Hasło", text: $password1)
+                        .autocapitalization(.none)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .modifier(InvalidInputModifier(isInvalid: $isInputInvalid1))
+                        .onChange(of: password1) { newValue in
+                            isInputInvalid1 = !isValid(newValue)
                         }
 
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                registerUser()
-                            }) {
-                                Text("Zarejestruj się")
-                                    .font(.headline)
-                                    .padding()
-                                    .frame(maxWidth: 180)
-                                    .background(Color.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            Spacer()
+                    Text("Powtórz hasło")
+                    SecureField("Powtórz hasło", text: $password2)
+                        .autocapitalization(.none)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .modifier(InvalidInputModifier(isInvalid: $isInputInvalid2))
+                        .onChange(of: password2) { newValue in
+                            isInputInvalid2 = !isValid(newValue)
                         }
+
+                    HStack {
+                        Spacer()
+                        if !errorMessage.isEmpty {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .multilineTextAlignment(.center)
+                        }
+                        if !successMessage.isEmpty {
+                            Text(successMessage)
+                                .foregroundColor(Color(rgb: 17, green: 217, blue: 17))
+                                .multilineTextAlignment(.center)
+                        }
+                        Spacer()
                     }
-                    .padding(30)
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .padding(20)
 
-                    Spacer()
-
-                    VStack {
-                        Text("Masz już konto?")
-                        NavigationLink(destination: LoginFormView(isLoggedIn: $isLoggedIn, userLogin: $userLogin)) {
-                            Text("Zaloguj się")
-                                .foregroundColor(.blue)
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            registerUser()
+                        }) {
+                            Text("Zarejestruj się")
+                                .font(.headline)
+                                .padding()
+                                .frame(maxWidth: 180)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
+                        Spacer()
                     }
-                    .padding()
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(hex: 0xF0F0F0))
+                .padding(30)
+                .background(Color.white)
+                .cornerRadius(8)
+                .padding(.init(top: 0, leading: 20, bottom: 20, trailing: 20))
+
+                Spacer()
+
+                VStack {
+                    Text("Masz już konto?")
+                    NavigationLink(destination: LoginFormView(isLoggedIn: $isLoggedIn, userLogin: $userLogin)) {
+                        Text("Zaloguj się")
+                            .foregroundColor(.blue)
+                    }
+                }
+                .padding(.init(top: 0, leading: 0, bottom: 30, trailing: 0))
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(hex: 0xF0F0F0))
         }
         .navigationBarBackButtonHidden(true)
     }
