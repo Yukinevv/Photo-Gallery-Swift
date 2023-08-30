@@ -10,7 +10,7 @@ import Foundation
 
 class ApiService {
     private let apiUrl = "https://photo-gallery-api-59f6baae823c.herokuapp.com/api"
-    //private let apiUrl = "http://localhost:8080/api"
+    // private let apiUrl = "http://localhost:8080/api"
 
     func createUser(user: User, completion: @escaping (Result<Data, Error>) -> Void) {
         let url = URL(string: "\(apiUrl)/users/add")!

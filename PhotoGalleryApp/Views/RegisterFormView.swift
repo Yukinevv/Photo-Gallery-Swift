@@ -143,7 +143,12 @@ struct RegisterFormView: View {
 
                 case let .failure(error):
                     print("Registration failure, error:", error)
-                    errorMessage = "Wystąpił błąd podczas rejestracji!"
+
+                    if (error as NSError).code == 403 {
+                        errorMessage = "Uzytkownik o podanym loginie juz istnieje!"
+                    } else {
+                        errorMessage = "Wystąpił błąd podczas rejestracji!"
+                    }
                 }
             }
         }
